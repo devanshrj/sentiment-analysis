@@ -5,10 +5,13 @@ get_save_dir() and get_logger() from:
     Chris Chute (chute@stanford.edu)
 """
 
+import numpy as np
 import logging
+import os
 import random
 import time
 import torch
+import tqdm
 
 
 def set_seeds(SEED):
