@@ -27,7 +27,7 @@ def get_train_args():
                         default=1,
                         help='Output dimensions')
 
-    parser.add_argument('--num_layers',
+    parser.add_argument('--n_layers',
                         type=int,
                         default=2,
                         help='Number of GRU layers')
@@ -41,6 +41,9 @@ def get_train_args():
                         type=float,
                         default=0.25,
                         help='Dropout probability')
+
+    args = parser.parse_args()
+    return args
 
 
 def add_train_test_args(parser):
@@ -67,7 +70,7 @@ def add_train_test_args(parser):
 
     parser.add_argument('--hidden_dim',
                         type=int,
-                        default=256
+                        default=256,
                         help='Hidden dimension')
 
     parser.add_argument('--bert_variant',

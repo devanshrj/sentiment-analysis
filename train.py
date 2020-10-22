@@ -2,14 +2,17 @@
 Train a model on IMDb dataset.
 """
 
+import numpy as np
 import random
 import time
 import torch
 import torch.nn as nn
 import torch.optim as optim
+import tqdm
+
+from json import dumps
 from torchtext import datasets
 from transformers import BertModel
-from tqdm import tqdm
 
 from args import get_train_args
 from preprocess import Dataset
@@ -21,7 +24,7 @@ def main(args):
     # set up logs and device
     args.save_dir = get_save_dir(args.save_dir, args.name, training=True)
     log = get_logger(args.save_dir, args.name)
-    device = torch.device('cuda' if torch.cuda.is_availabe() else 'cpu')
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     log.info(f'Args: {dumps(vars(args), indent=4, sort_keys=True)}')
 
     # set random seed
@@ -48,7 +51,7 @@ def main(args):
 
     # download BertModel from transformers
     log.info(
-        'Get pretrained BERT model from transformers, variant = {args.bert_variant}...')
+        f'Get pretrained BERT model from transformers, variant = {args.bert_variant}...')
     bert = BertModel.from_pretrained(args.bert_variant)
 
     # define model
@@ -57,7 +60,7 @@ def main(args):
                           args.n_layers, args.bidirectional, args.dropout)
 
     # optimizer
-    optimizer = optim.Adam(model_parameters())
+    optimizer = optim.Adam(model.parameters())
 
     # criterion
     criterion = nn.BCEWithLogitsLoss()
@@ -103,7 +106,7 @@ def train(model, iterator, optimizer, criterion):
 
     model.train()
 
-    with tqdm(total=len(iterator)) as progress_bar:
+    with tqdm.tqdm(total=len(iterator)) as progress_bar:
         for batch in iterator:
             optimizer.zero_grad()
 
@@ -136,7 +139,7 @@ def evaluate(model, iterator, criterion):
 
     model.eval()
 
-    with torch.no_grad(), tqdm(total=len(iterator)) as progress_bar:
+    with torch.no_grad(), tqdm.tqdm(total=len(iterator)) as progress_bar:
         for batch in iterator:
 
             predictions = model(batch.text).squeeze(1)
