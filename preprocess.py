@@ -1,3 +1,7 @@
+"""
+Preprocess class.
+"""
+
 import torch
 
 from torchtext import data
@@ -13,7 +17,7 @@ class Dataset():
         """
         Create tokenizer, special tokens, max length for tokenizer.
         Params:
-            model (string): Model class for BertTokenizer
+            bert_variant (string): Model class for BertTokenizer
         """
         self.tokenizer = BertTokenizer.from_pretrained(bert_variant)
 
@@ -39,7 +43,7 @@ class Dataset():
         """
         return self.tokenizer
 
-    def fields(self):
+    def get_fields(self):
         """
         Create TEXT and LABEL fields.
         Params:
@@ -73,7 +77,7 @@ class Dataset():
         LABEL = data.LabelField(dtype=torch.float)
         return TEXT, LABEL
 
-    def iterators(self, train_data, valid_data, test_data, batch_size, device):
+    def get_iterators(self, train_data, valid_data, test_data, batch_size, device):
         """
         Create iterator for dataset.
         Params:
