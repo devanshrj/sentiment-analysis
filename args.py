@@ -9,8 +9,8 @@ def get_train_args():
     """
     Arguments needed in train.py.
     """
-    parser = argparse.ArgumentParser('Train a model on IMDb Dataset')
-    add_train_test_args(parser)
+    parser = argparse.ArgumentParser('Train a model on IMDb Dataset.')
+    add_common_args(parser)
 
     parser.add_argument('--seed',
                         type=int,
@@ -20,35 +20,28 @@ def get_train_args():
     parser.add_argument('--num_epochs',
                         type=int,
                         default=5,
-                        help='Number of epochs for which to train')
+                        help='Number of epochs for which to train.')
 
-    parser.add_argument('--output_dim',
+    parser.add_argument('--batch_size',
                         type=int,
-                        default=1,
-                        help='Output dimensions')
-
-    parser.add_argument('--n_layers',
-                        type=int,
-                        default=2,
-                        help='Number of GRU layers')
-
-    parser.add_argument('--bidirectional',
-                        type=bool,
-                        default=True,
-                        help='Directionality of GRU')
-
-    parser.add_argument('--dropout',
-                        type=float,
-                        default=0.25,
-                        help='Dropout probability')
+                        default=128,
+                        help='Batch size.')
 
     args = parser.parse_args()
     return args
 
 
-def add_train_test_args(parser):
+def get_app_args():
     """
-    Arguments needed in both train.py and test.py.
+    Arguments needed in app.py.
+    """
+    parser = argparse.ArgumentParser('Deploy a model using Flask.')
+    add_common_args(parser)
+
+
+def add_common_args(parser):
+    """
+    Arguments needed in both train.py and app.py.
     Params:
         parser
     """
@@ -56,24 +49,44 @@ def add_train_test_args(parser):
                         '-n',
                         type=str,
                         required=True,
-                        help='Name to identify train or test run')
+                        help='Name to identify model run.')
 
     parser.add_argument('--save_dir',
                         type=str,
                         default='./save/',
                         help='Base directory for saving information.')
 
-    parser.add_argument('--batch_size',
-                        type=int,
-                        default=128,
-                        help='Batch size')
-
-    parser.add_argument('--hidden_dim',
-                        type=int,
-                        default=256,
-                        help='Hidden dimension')
+    parser.add_argument('--model_name',
+                        type=str,
+                        default='bert-sent-model.pt',
+                        help='Name to save/load model.')
 
     parser.add_argument('--bert_variant',
                         type=str,
                         default='bert-base-uncased',
-                        help='Variant of BERT Model from transformers')
+                        help='Variant of BERT Model from transformers.')
+
+    parser.add_argument('--hidden_dim',
+                        type=int,
+                        default=256,
+                        help='Hidden dimensions.')
+
+    parser.add_argument('--output_dim',
+                        type=int,
+                        default=1,
+                        help='Output dimensions.')
+
+    parser.add_argument('--n_layers',
+                        type=int,
+                        default=2,
+                        help='Number of GRU layers.')
+
+    parser.add_argument('--bidirectional',
+                        type=bool,
+                        default=True,
+                        help='Directionality of GRU.')
+
+    parser.add_argument('--dropout',
+                        type=float,
+                        default=0.25,
+                        help='Dropout probability.')
