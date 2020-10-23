@@ -6,15 +6,18 @@ function package_exist() {
     else
         echo "$package is not installed"
         pip install "$package"
+        echo "$package is installed"
     fi
 }
 
 # check torchtext
+echo "Check TorchText"
 package_exist torchtext
 
 # check transformers
+echo "\nCheck Transformers"
 package_exist transformers
 
 # execute run.py
-echo "Executing run.py"
+echo "\nExecuting run.py"
 python -W ignore run.py -n "$1"
