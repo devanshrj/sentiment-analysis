@@ -49,15 +49,9 @@ def main(args):
     # build LABEL vocabulary
     LABEL.build_vocab(train_data)
 
-    # download BertModel from transformers
-    log.info(
-        f'Get pretrained BERT model from transformers, variant = {args.bert_variant}...'
-    )
-    bert = BertModel.from_pretrained(args.bert_variant)
-
     # define model
     log.info('Building model...')
-    model = BERTSentiment(bert, args.hidden_dim, args.output_dim,
+    model = BERTSentiment(args.bert_variant, args.hidden_dim, args.output_dim,
                           args.n_layers, args.bidirectional, args.dropout)
 
     # optimizer

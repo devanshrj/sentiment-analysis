@@ -5,9 +5,11 @@ Model class.
 import torch
 import torch.nn as nn
 
+from transformers import BertModel
+
 
 class BERTSentiment(nn.Module):
-    def __init__(self, bert, hidden_dim, output_dim, n_layers, bidirectional, dropout):
+    def __init__(self, bert_variant, hidden_dim, output_dim, n_layers, bidirectional, dropout):
         """
         Model: Embedding (BERT) -> Multilayer GRU -> Linear
         Params:
@@ -20,7 +22,7 @@ class BERTSentiment(nn.Module):
         """
         super().__init__()
 
-        self.bert = bert
+        self.bert = BertModel.from_pretrained(bert_variant)
         embedding_dim = bert.config.to_dict()['hidden_size']
 
         self.rnn = nn.GRU(embedding_dim,

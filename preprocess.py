@@ -5,8 +5,7 @@ Preprocess class.
 import torch
 
 from torchtext import data
-from torchtext import datasets
-from transformers import BertTokenizer, BertModel
+from transformers import BertTokenizer
 
 
 class Dataset():
