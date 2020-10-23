@@ -51,7 +51,8 @@ def main(args):
 
     # download BertModel from transformers
     log.info(
-        f'Get pretrained BERT model from transformers, variant = {args.bert_variant}...')
+        f'Get pretrained BERT model from transformers, variant = {args.bert_variant}...'
+    )
     bert = BertModel.from_pretrained(args.bert_variant)
 
     # define model
@@ -69,15 +70,15 @@ def main(args):
     model = model.to(device)
     criterion = criterion.to(device)
 
+    # train set and validation set
     best_valid_loss = float('inf')
-
     for epoch in range(args.num_epochs):
 
         start_time = time.time()
 
         log.info(f'Training, epoch = {epoch}...')
-        train_loss, train_acc = train(
-            model, train_iterator, optimizer, criterion)
+        train_loss, train_acc = train(model, train_iterator, optimizer,
+                                      criterion)
 
         log.info(f'Evaluating, epoch = {epoch}...')
         valid_loss, valid_acc = evaluate(model, valid_iterator, criterion)
@@ -90,6 +91,14 @@ def main(args):
             log.info(f'Saving best model...')
             best_valid_loss = valid_loss
             torch.save(model.state_dict(), 'sent-bert-model.pt')
+
+    log.info('Model trained and evaluated...')
+
+    # test set
+    log.info('Testing...')
+    model.load_state_dict(torch.load('sent-bert-model.pt'))
+    test_loss, test_acc = evaluate(model, test_iterator, criterion)
+    print(f'Test Loss: {test_loss:.3f} | Test Acc: {test_acc*100:.2f}%')
 
 
 def train(model, iterator, optimizer, criterion):
