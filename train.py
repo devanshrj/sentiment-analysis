@@ -85,13 +85,13 @@ def main(args):
             log.info(f'Saving best model...')
             best_valid_loss = valid_loss
             torch.save(model.state_dict(),
-                       f'{args.save_dir}/sent-bert-model.pt')
+                       f'{args.save_dir}/{args.model_name}')
 
     log.info('Model trained and evaluated...')
 
     # test set
     log.info('Testing...')
-    model.load_state_dict(torch.load(f'{args.save_dir}/sent-bert-model.pt'))
+    model.load_state_dict(torch.load(f'{args.save_dir}/{args.model_name}'))
     test_loss, test_acc = evaluate(model, test_iterator, criterion)
     print(f'Test Loss: {test_loss:.3f} | Test Acc: {test_acc*100:.2f}%')
 

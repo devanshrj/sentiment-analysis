@@ -23,7 +23,7 @@ class BERTSentiment(nn.Module):
         super().__init__()
 
         self.bert = BertModel.from_pretrained(bert_variant)
-        embedding_dim = bert.config.to_dict()['hidden_size']
+        embedding_dim = self.bert.config.to_dict()['hidden_size']
 
         self.rnn = nn.GRU(embedding_dim,
                           hidden_dim,

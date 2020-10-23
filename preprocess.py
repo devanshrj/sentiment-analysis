@@ -10,8 +10,8 @@ from transformers import BertTokenizer
 
 class Dataset():
     """
+    Dataset class to build tokenizer, data fields and data iterators.
     """
-
     def __init__(self, bert_variant):
         """
         Create tokenizer, special tokens, max length for tokenizer.

@@ -31,12 +31,15 @@ def get_train_args():
     return args
 
 
-def get_app_args():
+def get_predict_args():
     """
-    Arguments needed in app.py.
+    Arguments needed in predict.py.
     """
-    parser = argparse.ArgumentParser('Deploy a model using Flask.')
+    parser = argparse.ArgumentParser('Predict on input using trained model.')
     add_common_args(parser)
+
+    args, unknown = parser.parse_known_args()
+    return args
 
 
 def add_common_args(parser):
@@ -48,7 +51,7 @@ def add_common_args(parser):
     parser.add_argument('--name',
                         '-n',
                         type=str,
-                        required=True,
+                        default='bert',
                         help='Name to identify model run.')
 
     parser.add_argument('--save_dir',
@@ -58,7 +61,7 @@ def add_common_args(parser):
 
     parser.add_argument('--model_name',
                         type=str,
-                        default='bert-sent-model.pt',
+                        default='sent-bert-model.pt',
                         help='Name to save/load model.')
 
     parser.add_argument('--bert_variant',
