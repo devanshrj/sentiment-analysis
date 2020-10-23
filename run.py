@@ -22,7 +22,7 @@ from utils import *
 
 def main(args):
     # set up logs and device
-    args.save_dir = get_save_dir(args.save_dir, args.name, training=True)
+    args.save_dir = get_save_dir(args.save_dir, args.name)
     log = get_logger(args.save_dir, args.name)
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     log.info(f'Args: {dumps(vars(args), indent=4, sort_keys=True)}')
@@ -90,13 +90,14 @@ def main(args):
         if valid_loss < best_valid_loss:
             log.info(f'Saving best model...')
             best_valid_loss = valid_loss
-            torch.save(model.state_dict(), 'sent-bert-model.pt')
+            torch.save(model.state_dict(),
+                       f'{args.save_dir}/sent-bert-model.pt')
 
     log.info('Model trained and evaluated...')
 
     # test set
     log.info('Testing...')
-    model.load_state_dict(torch.load('sent-bert-model.pt'))
+    model.load_state_dict(torch.load(f'{args.save_dir}/sent-bert-model.pt'))
     test_loss, test_acc = evaluate(model, test_iterator, criterion)
     print(f'Test Loss: {test_loss:.3f} | Test Acc: {test_acc*100:.2f}%')
 

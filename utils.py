@@ -56,22 +56,20 @@ def binary_accuracy(preds, y):
     return acc
 
 
-def get_save_dir(base_dir, name, training, id_max=100):
+def get_save_dir(base_dir, name, id_max=100):
     """Get a unique save directory by appending the smallest positive integer
     `id < id_max` that is not already taken (i.e., no dir exists with that id).
 
     Args:
         base_dir (str): Base directory in which to make save directories.
         name (str): Name to identify this training run. Need not be unique.
-        training (bool): Save dir. is for training (determines subdirectory).
         id_max (int): Maximum ID number before raising an exception.
 
     Returns:
         save_dir (str): Path to a new directory with a unique name.
     """
     for uid in range(1, id_max):
-        subdir = 'train' if training else 'test'
-        save_dir = os.path.join(base_dir, subdir, f'{name}-{uid:02d}')
+        save_dir = os.path.join(base_dir, f'{name}-{uid:02d}')
         if not os.path.exists(save_dir):
             os.makedirs(save_dir)
             return save_dir
