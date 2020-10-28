@@ -19,5 +19,5 @@ echo "\nCheck Transformers"
 package_exist transformers
 
 # execute run.py
-echo "\nExecuting run.py"
-python -W ignore run.py -n "$1"
+echo "\nExecuting train.py"
+python -W ignore code/train.py -n "$1"

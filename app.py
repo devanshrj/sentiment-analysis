@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template
-from predict import predict_sentiment
+from code.predict import predict_sentiment
 
 # setup app
 app = Flask(__name__)

@@ -4,10 +4,10 @@ Predict the sentiment of an input sentence using the trained model.
 
 import torch
 
-from args import get_predict_args
-from model import BERTSentiment
-from preprocess import Dataset
-from utils import *
+from .args import get_predict_args
+from .model import BERTSentiment
+from .preprocess import Dataset
+from .utils import *
 
 # set up args and device
 args = get_predict_args()
